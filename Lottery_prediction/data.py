@@ -14,34 +14,41 @@ class DataLoader:
     - split_ratio : to decide length of training / test
     """
 
-    def __init__(self, data_dir, training_length = 0.8):
+    def __init__(self, data_dir, training_length, window_prev, mode):
         
+        self.window_prev = window_prev
         self.data_dir = data_dir
         self.split_ratio = training_length
+        self.mode = mode
         train_X, test_X, train_y, test_y = self.preproc_entire()
         self.train_X = train_X
         self.test_X = test_X
         self.train_Y = train_y
         self.test_Y = test_y
         
+        
 
     def preproc_entire(self):
         
         dataset = self.preproc_csv()
-        reframed = self.preproc_data_for_supervised(dataset,1,1)
+        reframed = self.preproc_data_for_supervised(dataset,self.window_prev,1,dropnan=True, fillnan = False)
 
         values = reframed.values
-        train_length = int(self.split_ratio * len(dataset))
+        train_length = int(self.split_ratio * len(dataset))    
         train = values[:train_length, :]
-        test = values[train_length:train_length+1, :]
-        
+        if self.mode == 'predict':
+            test = values[len(dataset)-self.window_prev-1, :]
+        else:
+            test = values[train_length:train_length + 1, :]
+
         # split into input and outputs
-        train_X, train_y = train[:, :ENTIRE_NUMBER], train[:, ENTIRE_NUMBER:]
-        test_X, test_y = test[:, :ENTIRE_NUMBER], test[:, ENTIRE_NUMBER:]
+        n_obs =  self.window_prev * ENTIRE_NUMBER
+        train_X, train_y = train[:, :n_obs], train[:, -ENTIRE_NUMBER:]
+        test_X, test_y = test[:, :n_obs], test[:, -ENTIRE_NUMBER:]
         
         # reshape input to be 3D [samples, timesteps, features]
-        train_X = train_X.reshape((train_X.shape[0], 1, train_X.shape[1]))
-        test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
+        train_X = train_X.reshape((train_X.shape[0], self.window_prev, ENTIRE_NUMBER ))
+        test_X = test_X.reshape((test_X.shape[0], self.window_prev, ENTIRE_NUMBER))
         
         return train_X, test_X, train_y, test_y
         
@@ -65,7 +72,7 @@ class DataLoader:
         
         return inputnp
     
-    def preproc_data_for_supervised(self, data, n_in=1, n_out=1, dropnan=True):
+    def preproc_data_for_supervised(self, data, n_in, n_out=1, dropnan = False, fillnan = True):
         '''        
 
         Parameters
@@ -80,6 +87,7 @@ class DataLoader:
             shifting values will generate nan value. handling the nan.
 
         '''
+        n_in = self.window_prev
         
         n_vars = 1 if type(data) is list else data.shape[1]
         df = pd.DataFrame(data)
@@ -103,6 +111,8 @@ class DataLoader:
         # drop rows with NaN values
         if dropnan:
             aggregated.dropna(inplace=True)
+        if fillnan:
+            aggregated.fillna(method = 'ffill')
         
         return aggregated
 
