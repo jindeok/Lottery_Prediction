@@ -15,7 +15,9 @@ any version of {} might works ..
 
 # Running
 
-run main.py in the Lottery_Prediction folder.
+run main.py in the Lottery_Prediction folder
+or in terminal,
+``python main.py --data_dir 'dataset/lottery_history.csv' --mode 'eval_model' --trial 5 --training_lengt 0.90 ''  
 dataset version of date is [21.04.23]
 you can update dataset from the Web:  https://dhlottery.co.kr/common.do?method=main
 
