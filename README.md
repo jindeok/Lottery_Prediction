@@ -1,6 +1,7 @@
 # Lottery_Prediction
 LSTM based lottery forecast deep learning model.
-Lottery dataset is collected from official korea lottery Web: https://dhlottery.co.kr/common.do?method=main
+
+The dataset is collected from official korea lottery Web: https://dhlottery.co.kr/common.do?method=main
 
 # Dependancy
 any version of {} might works ..
