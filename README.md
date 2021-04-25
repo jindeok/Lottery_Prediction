@@ -3,7 +3,7 @@ LSTM based lottery forecast deep learning model
 based on lottery data acquisited from official korea lottery Web: https://dhlottery.co.kr/common.do?method=main
 
 # Dependancy
-any version of  ..
+any version of {} might works ..
 
 * tensorflow
 * keras
