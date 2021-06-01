@@ -13,7 +13,7 @@ from globalvar import *
 
 class LotteryLSTM:
     
-    def __init__(self, DataLoader, hid_dim = 128):
+    def __init__(self, DataLoader, verb, hid_dim = 128):
         
         self.train_X = DataLoader.train_X
         self.test_X = DataLoader.test_X
@@ -27,6 +27,8 @@ class LotteryLSTM:
         
         self.model.compile(loss='mse', optimizer='adam')
         
+        self.verb = verb
+        
         
     def training(self, num_epoch, num_batch):
         
@@ -39,9 +41,9 @@ class LotteryLSTM:
     def predict_lottery_numbers(self, mode2, trial):
         
         yhat = self.model.predict(self.test_X) # [1x45] dim
+       # print(yhat)
 
-        overall_prediction = []
-        
+        prediction_number_set = []
         print('-----------Start lottery prediction ----------')
         
         for t in range(1, trial+1):
@@ -58,18 +60,23 @@ class LotteryLSTM:
                 '''
                 sampling from y_hat pdf
                 '''
-                prediction_number_set = []
+                
                 pdf = list(yhat[0]) # use the output as prob. desity dist.
-                for _ in range(6):
-                    selected = random.choices(np.arange(1, ENTIRE_NUMBER+1), pdf)
-                    prediction_number_set.append(selected[0])
-                    
-            print("predicted set of lottery numbers at {}th trial :".format(t), prediction_number_set)
-            
-            overall_prediction.append(prediction_number_set)
+                pdf = [0 if i < 0 else i for i in pdf]
+                pdf_norm = [float(i)/sum(pdf) for i in pdf] #normalize for make it as a pdf form.
+                selected = np.random.choice(ENTIRE_NUMBER, size=6, replace=False, p=pdf_norm)
+                prediction_number_set.append(selected)
+                if self.verb == 'verbose':
+                    print("predicted set of lottery numbers at {}th trial :".format(t), selected + 1)
+
+        #for greed
+        yhat_assigned = np.argsort(-yhat[:])                
+        greed_pred = yhat_assigned[0][:6] + 1
+        print("greed assignment result :" ,greed_pred)
         
-        return overall_prediction
+        return prediction_number_set
         
+    def predict_lottery_numbers(self, mode2, trial):
         
         
     def evaluate(self, overall_prediction):
@@ -80,17 +87,18 @@ class LotteryLSTM:
         print('-----------evaluation ----------')
         print('Lottery Winning numbers :', gth[0])
         trial = 1
+        all_count = 0
         for pred_set in overall_prediction:
             count = 0
             for i in pred_set:
                 if i in gth:
                     count += 1          
-                       
-            print('{}th predicted:'.format(trial), pred_set)            
-            print('{}th trial: {} out of 6 is correct !!'.format(trial, count))
+                    all_count += 1
+            if self.verb == 'verbose':                       
+                print('{}th predicted:'.format(trial), pred_set)            
+                print('{}th trial: {} out of 6 is correct !!'.format(trial, count))
+            
             trial += 1 
+            
+        print('Precision:{}%'.format(100*all_count/(6*(trial-1))))
         
-        
-        
-
-
