@@ -22,27 +22,33 @@ def parse_args():
     '''
     parser = argparse.ArgumentParser(description="Run Lottery prediction..")
     
-    parser.add_argument('--window', type = int, default = 5 , help = "time stamps")
+    parser.add_argument('--window', type = int, default = 3 , help = "time stamps")
     parser.add_argument('--data_dir', nargs='?', default='dataset/lottery_history.csv')
+    
     parser.add_argument('--mode', nargs='?', default='eval_model', help = "eval_model or predict")
     parser.add_argument('--mode2', nargs='?', default='sampling', help = "greed or sampling")
-    parser.add_argument('--trial', type = int, default='5', help = "how much number to generate")
-    parser.add_argument('--training_length', type=float, default = 0.6)   
+    parser.add_argument('--verb', nargs='?', default='not_verb', help = "verbose or not_verb")
+    
+    parser.add_argument('--trial', type = int, default='10000', help = "how much trials to generate")
+    parser.add_argument('--training_length', type=float, default = 0.5)   
     
     return parser.parse_args()
 
 args = parse_args()
 
 if __name__ == '__main__':
-    
     dataset = DataLoader(args.data_dir, args.training_length, args.window, args.mode)
-    LotteryLSTM = LotteryLSTM(dataset, hid_dim = 64)
+    LotteryLSTM = LotteryLSTM(dataset, hid_dim = 32, verb = args.verb)
     LotteryLSTM.training(num_epoch = 500, num_batch = 24)
     prediction_number_set = LotteryLSTM.predict_lottery_numbers(args.mode2, args.trial)
+    random_pred_set = LotteryLSTM.predict_randomely(args.trial)
     
     if args.mode == 'eval_model':
         LotteryLSTM.evaluate(prediction_number_set)
-        
+        print("---------Random baseline-------------")
+        LotteryLSTM.evaluate(random_pred_set)
     
     
-
+    # dataset.test_X = np.array([[[1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+    #      0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 1., 0.,
+    #      0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0.]]])

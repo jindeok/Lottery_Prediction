@@ -76,8 +76,15 @@ class LotteryLSTM:
         
         return prediction_number_set
         
-    def predict_lottery_numbers(self, mode2, trial):
+    def predict_randomely(self, trial):
         
+        prediction_number_set = []
+        for t in range(1,trial+1):
+            
+            selected = np.random.choice(ENTIRE_NUMBER, size=6, replace=False)
+            prediction_number_set.append(selected)
+        
+        return prediction_number_set
         
     def evaluate(self, overall_prediction):
         
