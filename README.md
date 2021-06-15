@@ -4,19 +4,19 @@ LSTM based lottery forecast deep learning model.
 The dataset is collected from official korea lottery Web: https://dhlottery.co.kr/common.do?method=main
 
 # Dependancy
-any version of {} might works ..
-
+any version of {} might works.
+{
 * tensorflow
 * keras
 * sklearn
 * numpy, pandas
-
+}
 
 
 
 # Running
 
-run main.py in the Lottery_Prediction folder
+run ``main.py`` script
 or in terminal,
 
 ``python main.py --data_dir 'dataset/lottery_history.csv' --mode 'eval_model' --trial 5 --training_lengt 0.90 ``  
