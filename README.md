@@ -18,7 +18,7 @@ any version of {} might works.
 
 run ``main.py`` script to manipulate params.
 
-or in your prompt type,
+or in your prompt, type
 
 ``python main.py --data_dir 'dataset/lottery_history.csv' --mode 'eval_model' --trial 5 --training_lengt 0.90 ``  
 
