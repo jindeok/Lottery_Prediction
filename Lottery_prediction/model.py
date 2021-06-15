@@ -9,7 +9,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import LSTM
 from globalvar import *
-
+import matplotlib.pyplot as plt
 
 class LotteryLSTM:
     
@@ -64,6 +64,7 @@ class LotteryLSTM:
                 pdf = list(yhat[0]) # use the output as prob. desity dist.
                 pdf = [0 if i < 0 else i for i in pdf]
                 pdf_norm = [float(i)/sum(pdf) for i in pdf] #normalize for make it as a pdf form.
+                plt.plot(pdf_norm)
                 selected = np.random.choice(ENTIRE_NUMBER, size=6, replace=False, p=pdf_norm)
                 prediction_number_set.append(selected)
                 if self.verb == 'verbose':

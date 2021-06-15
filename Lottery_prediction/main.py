@@ -14,7 +14,7 @@ from model import *
 
 import os
 import argparse
-
+import matplotlib.pyplot as plt
 
 def parse_args():
     '''
@@ -29,7 +29,7 @@ def parse_args():
     parser.add_argument('--mode2', nargs='?', default='sampling', help = "greed or sampling")
     parser.add_argument('--verb', nargs='?', default='not_verbose', help = "verbose or not_verb")
     
-    parser.add_argument('--trial', type = int, default='10000', help = "how much trials to generate")
+    parser.add_argument('--trial', type = int, default='100', help = "how much trials to generate")
     parser.add_argument('--training_length', type=float, default = 0.9)   
     
     return parser.parse_args()
@@ -39,7 +39,7 @@ args = parse_args()
 if __name__ == '__main__':
     dataset = DataLoader(args.data_dir, args.training_length, args.window, args.mode)
     LotteryLSTM = LotteryLSTM(dataset, hid_dim = 32, verb = args.verb)
-    LotteryLSTM.training(num_epoch = 500, num_batch = 24)
+    hist = LotteryLSTM.training(num_epoch = 1, num_batch = 1)
     prediction_number_set = LotteryLSTM.predict_lottery_numbers(args.mode2, args.trial)
     random_pred_set = LotteryLSTM.predict_randomely(args.trial)
     
