@@ -6,10 +6,12 @@ The dataset is collected from official korea lottery Web: https://dhlottery.co.k
 # Dependancy
 any version of {} might works.
 
-{* tensorflow
+{
+* tensorflow
 * keras
 * sklearn
 * numpy, pandas
+
 }
 
 
