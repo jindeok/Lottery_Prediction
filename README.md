@@ -16,7 +16,7 @@ any version of {} might works.
 
 # Running
 
-run ``main.py`` script to manipulate params.
+run ``main.py`` script
 
 or in your prompt, type
 
