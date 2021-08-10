@@ -4,15 +4,13 @@ LSTM based lottery forecast deep learning model.
 The dataset is collected from official korea lottery Web: https://dhlottery.co.kr/common.do?method=main
 
 # Dependancy
-any version of {} might works.
 
-{
-* tensorflow
+Any version might works except for tensorflow, tf >= 2.0
+* tensorflow 
 * keras
 * sklearn
 * numpy, pandas
 
-}
 
 
 
