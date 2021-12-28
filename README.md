@@ -26,7 +26,7 @@ dataset version is on the date: [21.04.23]
 
 you can easily update dataset from the Web:  https://dhlottery.co.kr/common.do?method=main
 
-***some comments on the arguments:***
+***Arguments:***
 
 training_length : there are ~980 lottery cases in total. you can decide to what extent to use as for training length.
 (e.g. 0.5 training_lengh uses 485 lottery cases are used for training and infer 486 th as a test set.)
