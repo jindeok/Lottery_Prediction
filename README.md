@@ -24,7 +24,7 @@ or in your prompt, type
 
 dataset version is on the date: [21.04.23]
 
-you can easily update dataset from the Web:  https://dhlottery.co.kr/common.do?method=main
+you can update dataset from the Web:  https://dhlottery.co.kr/common.do?method=main
 
 ***Arguments:***
 
