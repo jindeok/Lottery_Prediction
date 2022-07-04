@@ -9,7 +9,8 @@ Any version might works except for tensorflow, tf >= 2.0
 * tensorflow 
 * keras
 * sklearn
-* numpy, pandas
+* numpy 
+* pandas
 
 
 
