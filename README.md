@@ -5,8 +5,7 @@ The dataset is collected from official korea lottery Web: https://dhlottery.co.k
 
 # Dependancy
 
-Any version might works except for tensorflow, tf >= 2.0
-* tensorflow 
+* tensorflow >= 2.0
 * keras
 * sklearn
 * numpy 
